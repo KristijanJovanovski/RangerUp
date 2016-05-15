@@ -1,3 +1,4 @@
+
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RangerUp
 {
-    class HiResTimer
+    public class HiResTimer
     {
         Stopwatch stopwatch;
 
@@ -34,6 +35,15 @@ namespace RangerUp
         public void Stop()
         {
             stopwatch.Stop();
+        }
+        public void Continue()
+        {
+            stopwatch.Start();
+        }
+
+        public bool isActive()
+        {
+            return stopwatch.IsRunning;
         }
     }
 }

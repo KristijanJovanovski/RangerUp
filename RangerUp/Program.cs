@@ -13,11 +13,7 @@ namespace RangerUp
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            using (var form1 = new Form1())
-            {
-                form1.Show();
-                form1.GameLoop();
-            }
+            Application.Run(new MainForm());
         }
     }
 }

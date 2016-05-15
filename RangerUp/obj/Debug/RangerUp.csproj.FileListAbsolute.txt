@@ -7,3 +7,7 @@ C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\obj\Debug\RangerUp.cspro
 C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\obj\Debug\RangerUp.exe
 C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\obj\Debug\RangerUp.pdb
 C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\obj\Debug\RangerUp.Form1.resources
+C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\obj\Debug\RangerUp.HighScore.resources
+C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\obj\Debug\RangerUp.MainForm.resources
+C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\obj\Debug\Interop.WMPLib.dll
+C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\obj\Debug\RangerUp.csproj.ResolveComReference.cache
