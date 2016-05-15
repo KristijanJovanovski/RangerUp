@@ -1,0 +1,13 @@
+C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\bin\Debug\RangerUp.exe.config
+C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\bin\Debug\RangerUp.exe
+C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\bin\Debug\RangerUp.pdb
+C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\obj\Debug\RangerUp.csprojResolveAssemblyReference.cache
+C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\obj\Debug\RangerUp.Properties.Resources.resources
+C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\obj\Debug\RangerUp.csproj.GenerateResource.Cache
+C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\obj\Debug\RangerUp.exe
+C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\obj\Debug\RangerUp.pdb
+C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\obj\Debug\RangerUp.Form1.resources
+C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\obj\Debug\RangerUp.HighScore.resources
+C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\obj\Debug\RangerUp.MainForm.resources
+C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\obj\Debug\Interop.WMPLib.dll
+C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\obj\Debug\RangerUp.csproj.ResolveComReference.cache
