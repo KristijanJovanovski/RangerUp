@@ -1,7 +1,7 @@
 # **RangerUp**
 
 ---
-
+#####[**Binary Release**](https://doc-10-20-docs.googleusercontent.com/docs/securesc/mt35ab2n9bopvdpbrlill47v1nk8r6ti/u1j5gnl3bmm622ec3adtmaavn03qichk/1463414400000/10252438052474842654/10252438052474842654/0B5v6toZ6u1jnVFhrOTFoajljdE0?e=download&gd=true&access_token=ya29.CjHkAr7cO2mbRoOINPjSng6zjZTJ4piMikeHF-BizDLVabRKfy4ZPBOViUcr7DwXgwOu)
 #1.Опис на апликацијата
 
 Предмет на оваа семинарска работа е создавање на играта RangerUp. Идејата на играта е слична како на игрите од типот на Metal Soldier, Commando Assault итн. Оваа игра е едноставна и  заразна а нејзина цел е создавање на што поголем Score. Овој Score се добива така што треба да преживеете што подолго време, и во тоа време да уништите поголем број на авиони.  Авионите може да бидат уништени од вашиот човек кој располага со пиштол и фрлач на ракети(ограничена количина). На ваша помош ќе имате дополнително здравје, ракети, панцир кои имате шанса да ги добиете од уништените авиони.
