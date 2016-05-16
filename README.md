@@ -29,7 +29,11 @@
 *	Лев клик на глувче = пукање куршум
 *	Десен клик на глувче = пукање ракета
 
-
 ![Instructions]
-(http://s32.postimg.org/wt5iocufp/Instructions.png)
+(http://s32.postimg.org/6ymmi64np/Instructions.png)
 
+![GamePlay1]
+(http://s32.postimg.org/6c1hxvbx1/the_Game.png)
+
+![GamePlay2]
+(http://s32.postimg.org/ndpqm81ed/the_Game2.png)
