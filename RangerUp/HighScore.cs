@@ -55,7 +55,7 @@ namespace RangerUp
             StreamReader sr = null;
             try
             {
-                fs = new FileStream(@"..\HighScore.hs",FileMode.OpenOrCreate, FileAccess.Read);
+                fs = new FileStream(@"C:\Users\Public\HighScore.hs",FileMode.OpenOrCreate, FileAccess.Read);
                 sr = new StreamReader(fs,Encoding.UTF8);
                 while (!sr.EndOfStream)
                 {
@@ -81,7 +81,7 @@ namespace RangerUp
             StreamWriter sw = null;
             try
             {
-                fs = new FileStream(@"..\HighScore.hs", FileMode.OpenOrCreate, FileAccess.Write);
+                fs = new FileStream(@"C:\Users\Public\HighScore.hs", FileMode.OpenOrCreate, FileAccess.Write);
                 sw = new StreamWriter(fs, Encoding.UTF8);
                 int k = 1;
                 foreach (var item in _highScoreItems)
@@ -132,8 +132,10 @@ namespace RangerUp
             if (textBox1.Text.Trim().Length == 0)
             {
                 errorProvider1.SetError(textBox1, "Enter Name");
-                e.Cancel = false;
+                e.Cancel = true;
             }
+            else
+                errorProvider1.SetError(textBox1,null);
         }
 
         private void button2_Click(object sender, EventArgs e)

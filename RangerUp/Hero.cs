@@ -69,7 +69,7 @@ namespace RangerUp
 
         private void CheckHealth()
         {
-            if (HeroHealth <= 0)
+            if (HeroHealth < 0)
                 IsDead = true;
         }
 
