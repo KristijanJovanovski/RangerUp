@@ -301,15 +301,6 @@ namespace RangerUp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
-        /// </summary>
-        internal static System.IO.UnmanagedMemoryStream Barrel_Exploding_SoundBible_com_1134967902 {
-            get {
-                return ResourceManager.GetStream("Barrel_Exploding_SoundBible_com_1134967902", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap Box {
@@ -350,20 +341,20 @@ namespace RangerUp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        ///   Looks up a localized string similar to Do you want to save your score in Highscore list?.
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream explosion1 {
+        internal static string Form1_GameLoop_Do_you_want_to_save_your_score_in_Highscore_list_ {
             get {
-                return ResourceManager.GetStream("explosion1", resourceCulture);
+                return ResourceManager.GetString("Form1_GameLoop_Do_you_want_to_save_your_score_in_Highscore_list_", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        ///   Looks up a localized string similar to Save score?.
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream FallingBombSound {
+        internal static string Form1_GameLoop_Save_score_ {
             get {
-                return ResourceManager.GetStream("FallingBombSound", resourceCulture);
+                return ResourceManager.GetString("Form1_GameLoop_Save_score_", resourceCulture);
             }
         }
         
@@ -488,50 +479,12 @@ namespace RangerUp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
-        /// </summary>
-        internal static System.IO.UnmanagedMemoryStream kung_fu_punch_Mike_Koenig_2097967259 {
-            get {
-                return ResourceManager.GetStream("kung_fu_punch_Mike_Koenig_2097967259", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap missile {
             get {
                 object obj = ResourceManager.GetObject("missile", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap missileR {
-            get {
-                object obj = ResourceManager.GetObject("missileR", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Mute {
-            get {
-                object obj = ResourceManager.GetObject("Mute", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
-        /// </summary>
-        internal static System.IO.UnmanagedMemoryStream Pew_Pew_DKnight556_1379997159 {
-            get {
-                return ResourceManager.GetStream("Pew_Pew_DKnight556_1379997159", resourceCulture);
             }
         }
         
@@ -551,35 +504,6 @@ namespace RangerUp.Properties {
         internal static System.Drawing.Bitmap PlaneRed {
             get {
                 object obj = ResourceManager.GetObject("PlaneRed", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap speaker {
-            get {
-                object obj = ResourceManager.GetObject("speaker", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
-        /// </summary>
-        internal static System.IO.UnmanagedMemoryStream THE_Boom___Sound_Effect {
-            get {
-                return ResourceManager.GetStream("THE_Boom___Sound_Effect", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Thumbnail {
-            get {
-                object obj = ResourceManager.GetObject("Thumbnail", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

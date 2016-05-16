@@ -11,3 +11,4 @@ C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\obj\Debug\RangerUp.HighS
 C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\obj\Debug\RangerUp.MainForm.resources
 C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\obj\Debug\Interop.WMPLib.dll
 C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\obj\Debug\RangerUp.csproj.ResolveComReference.cache
+C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\obj\Debug\RangerUp.InstructionsForm.resources

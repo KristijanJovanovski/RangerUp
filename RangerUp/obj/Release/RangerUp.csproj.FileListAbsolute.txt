@@ -1,0 +1,11 @@
+C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\bin\Release\RangerUp.exe.config
+C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\bin\Release\RangerUp.exe
+C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\bin\Release\RangerUp.pdb
+C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\obj\Release\RangerUp.Form1.resources
+C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\obj\Release\RangerUp.HighScore.resources
+C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\obj\Release\RangerUp.InstructionsForm.resources
+C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\obj\Release\RangerUp.MainForm.resources
+C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\obj\Release\RangerUp.Properties.Resources.resources
+C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\obj\Release\RangerUp.csproj.GenerateResource.Cache
+C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\obj\Release\RangerUp.exe
+C:\Users\K2\OneDrive\Favorites\dotNet\RangerUp\RangerUp\obj\Release\RangerUp.pdb
