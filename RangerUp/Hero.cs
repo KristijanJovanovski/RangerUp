@@ -2,23 +2,20 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using RangerUp.Properties;
 
 namespace RangerUp
 {
     public class Hero:IDisposable
     {
-        
-        readonly int _boxLoc = 565;
+        readonly int _standingLocation = 565;
         public readonly int G = 23;
 
-        public bool isDead { get; set; }
-        public bool right;
-        public bool left;
-        public bool jump;
+        public bool IsDead { get; set; }
+        public bool Right;
+        public bool Left;
+        public bool Jump;
 
         public int Force;
 
@@ -29,88 +26,88 @@ namespace RangerUp
         public float Y { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
-        public PointF mouseLocation;
-        public PointF centerPoint;
+        public PointF MouseLocation;
+        public PointF CenterPoint;
 
-        private Image heroImage;
-        private List<Image> heroImagesRight;
-        private List<Image> heroImagesLeft;
-        private int indexRightImages;
-        private int indexLeftImages;
+        private Image _heroImage;
+        private List<Image> _heroImagesRight;
+        private List<Image> _heroImagesLeft;
+        private int _indexRightImages;
+        private int _indexLeftImages;
 
-        public HiResTimer bulletReloadTimer;
-        public HiResTimer missileReloadTimer;
+        public HiResTimer BulletReloadTimer;
+        public HiResTimer MissileReloadTimer;
 
         public bool ReloadingBullets;
         public bool ReloadingMissiles;
-        private readonly int clipSize = 30;
+        private readonly int _clipSize = 30;
 
-        private int missileCounter;
-        private int bulletsInClip;
-        private float fillAngleBullet;
-        private float fillAngleMissile;
+        private int _missileCounter;
+        private int _bulletsInClip;
+        private float _fillAngleBullet;
+        private float _fillAngleMissile;
 
-        public Bullet bullet;
-        public Missile missile;
+        public Bullet Bullet;
+        public Missile Missile;
 
         public Hero()
         {
-            left = right = jump = false;
+            Left = Right = Jump = false;
             Width = 80;
             Height = 80;
             X = 50;
-            Y = _boxLoc-Height;
+            Y = _standingLocation-Height;
             LoadAssets();
             HeroHealth = 100;
             HeroArmor = 100;
-            bulletReloadTimer = new HiResTimer();
-            missileReloadTimer = new HiResTimer();
-            fillAngleBullet = fillAngleMissile = 360;
-            bulletsInClip = clipSize;
-            missileCounter = 10;
+            BulletReloadTimer = new HiResTimer();
+            MissileReloadTimer = new HiResTimer();
+            _fillAngleBullet = _fillAngleMissile = 360;
+            _bulletsInClip = _clipSize;
+            _missileCounter = 10;
         }
 
         private void CheckHealth()
         {
             if (HeroHealth <= 0)
-                isDead = true;
+                IsDead = true;
         }
 
         public void Move()
         {
-            if (mouseLocation.X < centerPoint.X)
+            if (MouseLocation.X < CenterPoint.X)
             {
-                if (indexLeftImages == heroImagesLeft.Count) indexLeftImages = 0;
-                heroImage = heroImagesLeft[indexLeftImages++];
+                if (_indexLeftImages == _heroImagesLeft.Count) _indexLeftImages = 0;
+                _heroImage = _heroImagesLeft[_indexLeftImages++];
             }
-            else if (mouseLocation.X > centerPoint.X)
+            else if (MouseLocation.X > CenterPoint.X)
             {
-                if (indexRightImages == heroImagesRight.Count) indexRightImages = 0;
-                heroImage = heroImagesRight[indexRightImages++];
+                if (_indexRightImages == _heroImagesRight.Count) _indexRightImages = 0;
+                _heroImage = _heroImagesRight[_indexRightImages++];
             }
-            if (left){X -= 15;}
-            else if (right){X += 15;}
+            if (Left){X -= 15;}
+            else if (Right){X += 15;}
             else
             {
-                if (indexLeftImages > indexRightImages)
-                    heroImage = heroImagesLeft[0];
-                else if (indexLeftImages < indexRightImages)
-                    heroImage = heroImagesRight[0];
-                indexLeftImages = indexRightImages = 0;
+                if (_indexLeftImages > _indexRightImages)
+                    _heroImage = _heroImagesLeft[0];
+                else if (_indexLeftImages < _indexRightImages)
+                    _heroImage = _heroImagesRight[0];
+                _indexLeftImages = _indexRightImages = 0;
             }
-            if (jump)
+            if (Jump)
             {
                 Y -= Force;
                 Force -=1;
             }
-            if (Y + Height >= _boxLoc )
+            if (Y + Height >= _standingLocation )
             {
-                jump = false;
-                Y = _boxLoc - Height;
+                Jump = false;
+                Y = _standingLocation - Height;
             }
             else{Y += 5;}
             if (X < 0) X = 0;
-            centerPoint = new PointF(X+((float)Width/2),Y+((float)Height/2));
+            CenterPoint = new PointF(X+((float)Width/2),Y+((float)Height/2));
             
 
             RunBulletClock();
@@ -120,36 +117,36 @@ namespace RangerUp
 
         private void RunBulletClock()
         {
-            if (bulletsInClip == 0 && !ReloadingBullets)
+            if (_bulletsInClip == 0 && !ReloadingBullets)
             {
                 Reload();
             }
 
-            if (bulletReloadTimer.isActive() && bulletReloadTimer.ElapsedMilliseconds >= 100)
+            if (BulletReloadTimer.IsActive() && BulletReloadTimer.ElapsedMilliseconds >= 100)
             {
-                bulletReloadTimer.Stop();
-                bulletReloadTimer.Start();
-                fillAngleBullet += 12;
-                bulletsInClip++;
+                BulletReloadTimer.Stop();
+                BulletReloadTimer.Start();
+                _fillAngleBullet += 12;
+                _bulletsInClip++;
             }
-            if (bulletsInClip == clipSize)
+            if (_bulletsInClip == _clipSize)
             {
-                bulletReloadTimer.Stop();
+                BulletReloadTimer.Stop();
                 ReloadingBullets = false;
             }
         }
 
         private void RunMissileClock()
         {
-            if (missileReloadTimer.isActive() && missileReloadTimer.ElapsedMilliseconds >= 50)
+            if (MissileReloadTimer.IsActive() && MissileReloadTimer.ElapsedMilliseconds >= 50)
             {
-                missileReloadTimer.Stop();
-                missileReloadTimer.Start();
-                fillAngleMissile += 10;
+                MissileReloadTimer.Stop();
+                MissileReloadTimer.Start();
+                _fillAngleMissile += 10;
             }
-            if (fillAngleMissile >= 360)
+            if (_fillAngleMissile >= 360)
             {
-                missileReloadTimer.Stop();
+                MissileReloadTimer.Stop();
                 ReloadingMissiles = false;
             }
         }
@@ -158,18 +155,18 @@ namespace RangerUp
         {
             g.DrawRectangle(new Pen(Color.OrangeRed), new Rectangle(800, 620, 200, 20));
             g.FillRectangle(new SolidBrush(Color.Green), new RectangleF(
-                800, 620, ((float)200) * ((float)HeroHealth / 100), 20));
+                800, 620, 200 * (HeroHealth / 100), 20));
             TextRenderer.DrawText(g, "HEALTH: " + Math.Floor(HeroHealth),
-                Form1.DefaultFont, new Rectangle(800, 600, 200, 20), Color.White);
+                new Font("Century Gothic", 9.25f), new Rectangle(800, 600, 200, 20), Color.White);
 
             g.DrawRectangle(new Pen(Color.DarkMagenta), new Rectangle(800, 660, 200, 20));
             g.FillRectangle(new SolidBrush(Color.RoyalBlue), new RectangleF(
-                800, 660, ((float)200) * ((float)HeroArmor / 100), 20));
+                800, 660, 200 * (HeroArmor / 100), 20));
             TextRenderer.DrawText(g, "ARMOR: " + Math.Floor(HeroArmor),
-                Form1.DefaultFont, new Rectangle(800, 640, 200, 20), Color.White);
+               new Font("Century Gothic",9.25f), new Rectangle(800, 640, 200, 20), Color.White);
 
 
-            g.DrawImage(heroImage,X,Y);
+            g.DrawImage(_heroImage,X,Y);
 
             DrawClipReload(g);
             DrawMissileReload(g);
@@ -178,99 +175,86 @@ namespace RangerUp
 
         private void LoadAssets()
         {
-            heroImagesRight = new List<Image>();
-            heroImagesLeft = new List<Image>();
-            indexRightImages = indexLeftImages = 0;
+            _heroImagesRight = new List<Image>();
+            _heroImagesLeft = new List<Image>();
+            _indexRightImages = _indexLeftImages = 0;
 
-            heroImage = Properties.Resources._1;
-            heroImagesRight.Add(Properties.Resources._1);
-            heroImagesRight.Add(Properties.Resources._2);
-            heroImagesRight.Add(Properties.Resources._3);
-            heroImagesRight.Add(Properties.Resources._4);
-            heroImagesRight.Add(Properties.Resources._5);
-            heroImagesRight.Add(Properties.Resources._6);
-            heroImagesRight.Add(Properties.Resources._7);
+            _heroImage = Resources._1;
+            _heroImagesRight.Add(Resources._1);
+            _heroImagesRight.Add(Resources._2);
+            _heroImagesRight.Add(Resources._3);
+            _heroImagesRight.Add(Resources._4);
+            _heroImagesRight.Add(Resources._5);
+            _heroImagesRight.Add(Resources._6);
+            _heroImagesRight.Add(Resources._7);
 
-            heroImagesLeft.Add(Properties.Resources._1m);
-            heroImagesLeft.Add(Properties.Resources._2m);
-            heroImagesLeft.Add(Properties.Resources._3m);
-            heroImagesLeft.Add(Properties.Resources._4m);
-            heroImagesLeft.Add(Properties.Resources._5m);
-            heroImagesLeft.Add(Properties.Resources._6m);
-            heroImagesLeft.Add(Properties.Resources._7m);
+            _heroImagesLeft.Add(Resources._1m);
+            _heroImagesLeft.Add(Resources._2m);
+            _heroImagesLeft.Add(Resources._3m);
+            _heroImagesLeft.Add(Resources._4m);
+            _heroImagesLeft.Add(Resources._5m);
+            _heroImagesLeft.Add(Resources._6m);
+            _heroImagesLeft.Add(Resources._7m);
         }
 
-        public void FireBurst(Point _mousePoint)
+        public void FireBurst(Point mousePoint)
         {
-            mouseLocation = _mousePoint;
-            //bullet firing
-            bullet = null;
+            MouseLocation = mousePoint;
+            Bullet = null;
             if (!ReloadingBullets)
             {
-                bullet = new Bullet(_mousePoint.X, _mousePoint.Y, centerPoint.X, centerPoint.Y - 10);
-                bullet.Velocity = 15;
-                bullet.FiredFromHero = true;
-                bulletsInClip--;
-                fillAngleBullet = (360/clipSize)*bulletsInClip;
-            }
-        }
-        public void Reload()
-        {
-            if (bulletsInClip < clipSize)
-            {
-                bulletReloadTimer.Start();
-                ReloadingBullets = true;
+                Bullet = new Bullet(mousePoint.X, mousePoint.Y, CenterPoint.X, CenterPoint.Y - 10);
+                Bullet.Velocity = 15;
+                Bullet.FiredFromHero = true;
+                _bulletsInClip--;
+                _fillAngleBullet = (360/_clipSize)*_bulletsInClip;
             }
         }
 
-        public void FireMissile(Point _mousePoint)
+        public void Reload()
         {
-            mouseLocation = _mousePoint;
-            missile = null;
-            //missile firing
-            if (!ReloadingMissiles && missileCounter > 0)
-            {
-                missile = new Missile(_mousePoint.X, _mousePoint.Y, centerPoint.X, centerPoint.Y - 10, 20);
+            if (_bulletsInClip >= _clipSize) return;
+            BulletReloadTimer.Start();
+            ReloadingBullets = true;
+        }
+
+        public void FireMissile(Point mousePoint)
+        {
+            MouseLocation = mousePoint;
+            Missile = null;
+            if (ReloadingMissiles || _missileCounter <= 0) return;
+            Missile = new Missile(mousePoint.X, mousePoint.Y, CenterPoint.X, CenterPoint.Y - 10, 20);
                 
-                missileCounter--;
-                missileReloadTimer.Start();
-                ReloadingMissiles = true;
-                fillAngleMissile = 0;
-            }
+            _missileCounter--;
+            MissileReloadTimer.Start();
+            ReloadingMissiles = true;
+            _fillAngleMissile = 0;
         }
 
         public void AssessDamage(PointF centerOfExplosion)
         {
             float scaler = 50;
-            if (Math.Abs(centerPoint.X - centerOfExplosion.X) <= 100)
+            if (!(Math.Abs(CenterPoint.X - centerOfExplosion.X) <= 100)) return;
+            if (Math.Abs(CenterPoint.X - centerOfExplosion.X) > 0)
             {
-                if (Math.Abs(centerPoint.X - centerOfExplosion.X) > 0)
-                {
-                    scaler = scaler - Math.Abs(centerPoint.X - centerOfExplosion.X) / 2;
-                }
-                HeroHealth -= scaler;
+                scaler = scaler - Math.Abs(CenterPoint.X - centerOfExplosion.X) / 2;
             }
+            HeroHealth -= scaler;
         }
 
         public bool Collision(Ammunition ammunition)
         {
-            if (ammunition.CenterPoint.X > X && ammunition.CenterPoint.X < X + Width &&
-                ammunition.CenterPoint.Y > Y && ammunition.CenterPoint.Y < Y + Height)
-            {
-                if (ammunition.IsBullet)
-                {
-                    if (!(ammunition as Bullet).FiredFromHero)
-                    {
-                        HeroHealth = HeroHealth- (float)(0.5f + Math.Pow(2, -100/(100-(HeroArmor-1))))*5;
-                        HeroArmor -= new Random().Next(1,7);
-                        if (HeroArmor < 0)
-                            HeroArmor = 0;
-                        ammunition.didHit = true;
-                        return true;
-                    }
-                }
-            }
-            return false;
+            if (!(ammunition.CenterPoint.X > X) || !(ammunition.CenterPoint.X < X + Width) ||
+                !(ammunition.CenterPoint.Y > Y) || !(ammunition.CenterPoint.Y < Y + Height)) return false;
+            if (!ammunition.IsBullet) return false;
+            var bullet = ammunition as Bullet;
+            if (bullet == null || bullet.FiredFromHero) return false;
+            HeroHealth = HeroHealth- (float)(0.5f + Math.Pow(2, -100/(100-(HeroArmor-1))))*5;
+            HeroArmor -= new Random().Next(1,7);
+            if (HeroArmor < 0)
+                HeroArmor = 0;
+            ammunition.DidHit = true;
+            return true;
         }
 
         public void PickedUpPresent(Present present)
@@ -283,7 +267,7 @@ namespace RangerUp
             }
             else if (present.TypeMissile)
             {
-                missileCounter += present.PlusMissile;
+                _missileCounter += present.PlusMissile;
             }
             else
             {
@@ -293,7 +277,7 @@ namespace RangerUp
             }
         }
 
-        public void DrawClipReload(Graphics g)
+        private void DrawClipReload(Graphics g)
         {
             SolidBrush b = new SolidBrush(SystemColors.MenuHighlight);
             GraphicsPath path1 = new GraphicsPath();
@@ -302,59 +286,59 @@ namespace RangerUp
             int x = 500;
             int y = 630;
 
-            path1.AddPie((float)(x - d / 2), (float)(y - d / 2), (float)d, (float)d, 270, fillAngleBullet);
-            path2.AddEllipse((float)(x - d / 4), (float)(y - d / 4), ((float)d / 2), ((float)d / 2));
+            path1.AddPie(x - d / 2, y - d / 2, d, (float)d, 270, _fillAngleBullet);
+            path2.AddEllipse(x - d / 4, y - d / 4, ((float)d / 2), ((float)d / 2));
             Region region = new Region(path1);
             region.Exclude(path2);
             g.FillRegion(b, region);
 
             if (ReloadingBullets)
             {
-                TextRenderer.DrawText(g, "RELOADING...", Form1.DefaultFont, new Point(x - 35, y + 50), Color.White, Color.Transparent);
+                TextRenderer.DrawText(g, "RELOADING...", new Font("Century Gothic", 9.25f), new Point(x - 35, y + 50), Color.White, Color.Transparent);
             }
-            TextRenderer.DrawText(g, bulletsInClip.ToString() + " x", Form1.DefaultFont, new Point(x - 20, y - 5), Color.White, Color.Transparent);
-            g.DrawImage(Properties.Resources.bullet,x,y-10,30,30);
+            TextRenderer.DrawText(g, _bulletsInClip + " x", new Font("Century Gothic", 9.25f), new Point(x - 20, y - 5), Color.White, Color.Transparent);
+            g.DrawImage(Resources.bullet,x,y-10,30,30);
 
         }
 
-        public void DrawMissileReload(Graphics g)
+        private void DrawMissileReload(Graphics g)
         {
-            SolidBrush b = new SolidBrush(Color.FromKnownColor(KnownColor.OrangeRed));
-            GraphicsPath path1 = new GraphicsPath();
-            GraphicsPath path2 = new GraphicsPath();
-            int d = 100;
-            int x = 650;
-            int y = 630;
-            path1.AddPie((float)(x - d / 2), (float)(y - d / 2), (float)d, (float)d, 270, fillAngleMissile);
-            path2.AddEllipse((float)(x - d / 4), (float)(y - d / 4), (float)(d / 2), (float)(d / 2));
-            TextRenderer.DrawText(g, missileCounter.ToString() + " x", Form1.DefaultFont, new Point(x - 20, y - 5), Color.White, Color.Transparent);
-            g.DrawImage(Properties.Resources.missile, x-5, y - 15, 30, 30);
+            var b = new SolidBrush(Color.FromKnownColor(KnownColor.OrangeRed));
+            var path1 = new GraphicsPath();
+            var path2 = new GraphicsPath();
+            var d = 100;
+            var x = 650;
+            var y = 630;
+            path1.AddPie(x - d / 2, y - d / 2, d, (float)d, 270, _fillAngleMissile);
+            path2.AddEllipse(x - d / 4, y - d / 4, ((float)d / 2), ((float)d / 2));
+            TextRenderer.DrawText(g, _missileCounter + " x", new Font("Century Gothic", 9.25f), new Point(x - 20, y - 5), Color.White, Color.Transparent);
+            g.DrawImage(Resources.missile, x-5, y - 15, 30, 30);
 
-            Region region = new Region(path1);
+            var region = new Region(path1);
             region.Exclude(path2);
             g.FillRegion(b, region);
         }
 
         #region IDisposable Support
-        private bool disposedValue = false; // To detect redundant calls
+        private bool _disposedValue; // To detect redundant calls
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (!_disposedValue)
             {
                 if (disposing)
                 {
-                    foreach (var image in heroImagesLeft)
+                    foreach (var image in _heroImagesLeft)
                     {
                         image.Dispose();
                     }
-                    foreach (var image in heroImagesRight)
+                    foreach (var image in _heroImagesRight)
                     {
                         image.Dispose();
                     }
-                    heroImage.Dispose();
+                    _heroImage.Dispose();
                 }
-                disposedValue = true;
+                _disposedValue = true;
             }
         }
         public void Dispose()

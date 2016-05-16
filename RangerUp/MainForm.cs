@@ -1,53 +1,49 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO.IsolatedStorage;
 
 namespace RangerUp
 {
     public partial class MainForm : Form
     {
-        private bool saveHighScore;
-        private int difficulty;
+        private bool _saveHighScore;
+        private int _difficulty;
         public MainForm()
         {
             InitializeComponent();
-
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void newGame_bttn_Click(object sender, EventArgs e)
         {
-
-            foreach (RadioButton radioButton in groupBox1.Controls)
+            foreach (RadioButton radioButton in difficulty_groupbox.Controls)
             {
-                
                 if (radioButton.Checked)
                 {
-                    if (radioButton.Text.Equals("Easy")) {difficulty=1; }
-                    else if (radioButton.Text.Equals("Medium")) { difficulty = 2; }
-                    else{ difficulty = 3; }
+                    if (radioButton.Text.Equals("Easy")) { _difficulty = 1; }
+                    else if (radioButton.Text.Equals("Medium")) { _difficulty = 2; }
+                    else { _difficulty = 3; }
                 }
             }
-
-            using (var form1 = new Form1(difficulty))
+            using (var form1 = new Form1(_difficulty))
             {
                 Hide();
                 form1.Show();
                 form1.GameLoop();
                 if (form1.DialogResult == DialogResult.OK)
                 {
-                    saveHighScore = form1.saveHighScore;
+                    _saveHighScore = form1.SaveHighScore;
                 }
-                if (saveHighScore)
+                if (_saveHighScore)
                 {
-                    HighScore highScore = new HighScore(saveHighScore);
-                    highScore.score = form1.score;
+                    HighScore highScore = new HighScore(_saveHighScore);
+                    highScore.Score = form1.Score;
+                    foreach (RadioButton radioButton in difficulty_groupbox.Controls)
+                    {
+                        if (radioButton.Checked)
+                        {
+                            highScore.Difficulty = radioButton.Text;
+                            break;
+                        }
+                    }
                     if (highScore.ShowDialog() == DialogResult.OK)
                     {
                         Show();
@@ -60,17 +56,23 @@ namespace RangerUp
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void highscore_bttn_Click(object sender, EventArgs e)
         {
             HighScore highScore = new HighScore(false);
             Hide();
-            if(highScore.ShowDialog()== DialogResult.OK)
+            if (highScore.ShowDialog() == DialogResult.OK)
                 Show();
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void instructions_bttn_Click(object sender, EventArgs e)
         {
-            Environment.Exit(0);
+            InstructionsForm instructions = new InstructionsForm();
+            instructions.Show();
+        }
+
+        private void quit_bttn_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

@@ -1,11 +1,13 @@
-﻿namespace RangerUp
+﻿using System.ComponentModel;
+
+namespace RangerUp
 ﻿{
-﻿    partial class Form1
+﻿    sealed partial class Form1
 ﻿    {
 ﻿        /// <summary>
 ﻿        /// Required designer variable.
 ﻿        /// </summary>
-﻿        private System.ComponentModel.IContainer components = null;
+﻿        private IContainer components = null;
 
 ﻿        /// <summary>
 ﻿        /// Clean up any resources being used.
@@ -28,6 +30,7 @@
 ﻿        /// </summary>
 ﻿        private void InitializeComponent()
 ﻿        {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.SuspendLayout();
             // 
             // Form1
@@ -40,11 +43,12 @@
             this.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Name = "Form1";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form1";
+            this.Text = "RangerUp";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp);

@@ -1,98 +1,98 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Media;
-using System.Text;
-using System.Threading.Tasks;
-using WMPLib;
+using RangerUp.Properties;
 
 namespace RangerUp
 {
     public class AtomBomb:IDisposable
     {
-        readonly int _boxLoc = 565;
+        readonly int _standingLocation = 565;
+
         public float X { get; set; }
         public float Y { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
+        public PointF CenterPoint;
+
         public Image AtomBombImage { get; set; }
-        public bool isDead { get; set; }
-        public bool isExploding { get; set; }
-        private List<Image> explosionImages;
-        private int indexExplosionImages = 0;
-        public PointF centerPoint;
+
+        public bool IsDead { get; set; }
+        public bool IsExploding { get; set; }
+        private List<Image> _explosionImages;
+        private int _indexExplosionImages;
+        
 
         public AtomBomb()
         {
             LoadAssets();
             Width = 80;
             Height = 80;
-            isDead = isExploding = false;
+            IsDead = IsExploding = false;
         }
 
         private void LoadAssets()
         {
-            AtomBombImage = Properties.Resources.atomicBomb;
-            explosionImages = new List<Image>();
-            explosionImages.Add(Properties.Resources._1e);
-            explosionImages.Add(Properties.Resources._1e);
-            explosionImages.Add(Properties.Resources._1e);
-            explosionImages.Add(Properties.Resources._2e);
-            explosionImages.Add(Properties.Resources._2e);
-            explosionImages.Add(Properties.Resources._2e);
-            explosionImages.Add(Properties.Resources._3e);
-            explosionImages.Add(Properties.Resources._3e);
-            explosionImages.Add(Properties.Resources._3e);
-            explosionImages.Add(Properties.Resources._4e);
-            explosionImages.Add(Properties.Resources._4e);
-            explosionImages.Add(Properties.Resources._4e);
+            AtomBombImage = Resources.atomicBomb;
+            _explosionImages = new List<Image>();
+            _explosionImages.Add(Resources._1e);
+            _explosionImages.Add(Resources._1e);
+            _explosionImages.Add(Resources._1e);
+            _explosionImages.Add(Resources._2e);
+            _explosionImages.Add(Resources._2e);
+            _explosionImages.Add(Resources._2e);
+            _explosionImages.Add(Resources._3e);
+            _explosionImages.Add(Resources._3e);
+            _explosionImages.Add(Resources._3e);
+            _explosionImages.Add(Resources._4e);
+            _explosionImages.Add(Resources._4e);
+            _explosionImages.Add(Resources._4e);
         }
 
         public void Move()
         {
-            if(Y + Height < _boxLoc && !isExploding)
+            if(Y + Height < _standingLocation && !IsExploding)
                 Y += 15;
             else
             {
-                Y = _boxLoc - Height;
-                isExploding = true;
+                Y = _standingLocation - Height;
+                IsExploding = true;
             }
-            if (isExploding)
+            if (IsExploding)
             {
-                if (indexExplosionImages < explosionImages.Count)
-                    AtomBombImage = explosionImages[indexExplosionImages++];
+                if (_indexExplosionImages < _explosionImages.Count)
+                    AtomBombImage = _explosionImages[_indexExplosionImages++];
                 else
-                    isDead = true;
+                    IsDead = true;
             }
             //  Y + Hight because it is needed as center of explosion, hence the bottom point is logical.
-            centerPoint = new PointF(X+((float)Width/2),Y+(Height));
+            CenterPoint = new PointF(X+((float)Width/2),Y+(Height));
         }
 
         public void Draw(Graphics g)
         {
-            if (isExploding)
+            if (IsExploding)
                 g.DrawImage(AtomBombImage, X - 55, Y - 120, 200, 200);
             else
                 g.DrawImage(AtomBombImage, X, Y, Width, Height);
         }
 
         #region IDisposable Support
-        private bool disposedValue = false; // To detect redundant calls
+        private bool _disposedValue; // To detect redundant calls
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (!_disposedValue)
             {
                 if (disposing)
                 {
                     AtomBombImage.Dispose();
-                    foreach (var image in explosionImages)
+                    foreach (var image in _explosionImages)
                     {
                         image.Dispose();
                     }
                 }
-                disposedValue = true;
+                _disposedValue = true;
             }
         }
         public void Dispose()

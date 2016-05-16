@@ -1,37 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
-using System.Collections;
 
 namespace RangerUp
 {
     public partial class HighScore : Form
     {
-        public bool saveScore;
-        public long score;
-        private List<Player> highScoreItems;
+        public bool SaveScore;
+        public long Score;
+        private List<Player> _highScoreItems;
+        public string Difficulty;
 
         public HighScore(bool ss)
         {
             InitializeComponent();
-            saveScore = ss;
-            if (!saveScore)
+            SaveScore = ss;
+            if (!SaveScore)
             {
                 label1.Hide();
                 textBox1.Hide();
                 button1.Hide();
+                button2.Select();
+                button2.Focus();
             }
             else
+            {
+                textBox1.Select();
                 textBox1.Focus();
+            }
 
             LoadHighScore();
             
@@ -40,8 +39,9 @@ namespace RangerUp
             listView1.FullRowSelect = true;
 
             listView1.Columns.Add("No.", 30);
-            listView1.Columns.Add("Player Name", 200);
-            listView1.Columns.Add("Score", 200);
+            listView1.Columns.Add("Player Name", 150);
+            listView1.Columns.Add("Score", 150);
+            listView1.Columns.Add("Difficulty", 100);
             
             ShowHighScore();
 
@@ -50,7 +50,7 @@ namespace RangerUp
 
         private void LoadHighScore()
         {
-            highScoreItems = new List<Player>();
+            _highScoreItems = new List<Player>();
             FileStream fs = null;
             StreamReader sr = null;
             try
@@ -59,8 +59,13 @@ namespace RangerUp
                 sr = new StreamReader(fs,Encoding.UTF8);
                 while (!sr.EndOfStream)
                 {
-                    string[] tmp = sr.ReadLine().Split(' ');
-                    highScoreItems.Add(new Player(tmp[1],int.Parse(tmp[2])));
+                    var readLine = sr.ReadLine();
+                    if (readLine != null)
+                    {
+                        string[] tmp = readLine.Split(' ');
+                        Player player = new Player(tmp[1], int.Parse(tmp[2]),tmp[3]);
+                        _highScoreItems.Add(player);
+                    }
                 }
             }
             finally
@@ -68,6 +73,7 @@ namespace RangerUp
                 if(fs != null) fs.Close();
                 if (sr != null) sr.Close();
             }
+
         }
         private void SaveHighScore()
         {
@@ -78,9 +84,9 @@ namespace RangerUp
                 fs = new FileStream(@"..\HighScore.hs", FileMode.OpenOrCreate, FileAccess.Write);
                 sw = new StreamWriter(fs, Encoding.UTF8);
                 int k = 1;
-                foreach (var item in highScoreItems)
+                foreach (var item in _highScoreItems)
                 {
-                    sw.WriteLine(k++ + ". "+item.name+" "+item.score);
+                    sw.WriteLine(k++ + ". "+item.Name+" "+item.Score +" "+item.Difficulty);
                 }
             }
             finally
@@ -93,13 +99,14 @@ namespace RangerUp
         private void ShowHighScore()
         {
             listView1.Items.Clear();
-            for (int i = 0; i < highScoreItems.Count; i++)
+            for (int i = 0; i < _highScoreItems.Count; i++)
             {
-                ListViewItem lvi = new ListViewItem(new string[]
+                var lvi = new ListViewItem(new[]
                 {
                     i+1 +". ",
-                    highScoreItems[i].name,
-                    highScoreItems[i].score.ToString()
+                    _highScoreItems[i].Name,
+                    _highScoreItems[i].Score.ToString(),
+                    _highScoreItems[i].Difficulty
                 });
                 listView1.Items.Add(lvi);
             }
@@ -112,9 +119,10 @@ namespace RangerUp
             textBox1.Hide();
             button1.Hide();
 
-            Player player = new Player(textBox1.Text,score);
-            highScoreItems.Add(player);
-            highScoreItems.Sort(player.Compare);
+            Player player = new Player(textBox1.Text,Score,Difficulty);
+            _highScoreItems.Add(player);
+            _highScoreItems.Sort(0,_highScoreItems.Count,player);
+            _highScoreItems.Reverse();
             ShowHighScore();
 
         }

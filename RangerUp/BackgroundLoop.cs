@@ -1,23 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Drawing;
+using RangerUp.Properties;
 
 namespace RangerUp
 {
     class BackgroundLoop
     {
-        public Image BackgroundCoverImage { get; set; }
+        private Image BackgroundCoverImage { get; set; }
         public int XPosition { get; set; }
         public int FormWidth { get; set; }
-        public int FormHeight { get; set; }
+        private int FormHeight { get; set; }
 
         public BackgroundLoop()
         {
-            BackgroundCoverImage = Properties.Resources.BackgroundCover;
+            BackgroundCoverImage = Resources.BackgroundCover;
             XPosition = 0;
         }
         public void Draw(Graphics g)

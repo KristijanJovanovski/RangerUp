@@ -1,57 +1,54 @@
-﻿#define myDebug
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.IO;
-using System.Security.Cryptography;
 using System.Windows.Forms;
+using RangerUp.Properties;
 
 namespace RangerUp
 {
-    public partial class Form1 : Form
+    public sealed partial class Form1 : Form
     {
         
         // Difficulty variables.
-        private int minPlaneTimeSpawn;
-        private int maxPlaneTimeSpawn;
-        private int minAtomBombTimeSpawn;
-        private int maxAtomBombTimeSpawn;
-        private int minBulletTimeSpawn;
-        private int maxBulletTimeSpawn;
-        private int PlaneDropPresent;
+        private int _minPlaneTimeSpawn;
+        private int _maxPlaneTimeSpawn;
+        private int _minAtomBombTimeSpawn;
+        private int _maxAtomBombTimeSpawn;
+        private int _minBulletTimeSpawn;
+        private int _maxBulletTimeSpawn;
+        private int _planeDropPresent;
 
         // Graphics
-        private Image backBuffer;
-        private Graphics graphics;
-        private readonly Graphics imageGraphics;
+        private Image _backBuffer;
+        private readonly Graphics _imageGraphics;
         
         // gameTimer vars.
-        private readonly long interval = (long) TimeSpan.FromSeconds(1.0/60).TotalMilliseconds;
-        private long startTime;
-        private readonly HiResTimer gameTimer = new HiResTimer();
-        // planeTimer
-        private HiResTimer planeTimer = new HiResTimer();
+        private readonly long _interval = (long) TimeSpan.FromSeconds(1.0/60).TotalMilliseconds;
+        private long _startTime;
+        private readonly HiResTimer _gameTimer = new HiResTimer();
 
-        private BackgroundLoop backgroundLoop;
+        // planeTimer
+        private HiResTimer _planeTimer = new HiResTimer();
+
+        private BackgroundLoop _backgroundLoop;
         private bool _gameActive;
-        private bool GameOver;
-        private Hero hero;
-        public long score;
-        public bool saveHighScore;
+        private bool _gameOver;
+        private Hero _hero;
+        public long Score;
+        public bool SaveHighScore;
 
         // Lists of objects in game
-        private List<Plane> listOfPlanes;
-        private List<Plane> listToDeletePlanes;
-        private List<Bullet> listOfBullets;
-        private List<Bullet> listToDeleteBullets;
-        private List<Missile> listOfMissiles;
-        private List<Missile> listToDeleteMissiles;
-        private List<AtomBomb> listOfAtomBombs;
-        private List<AtomBomb> listToDeleteAtomBombs;
-        private List<Present> listOfPresents;
-        private List<Present> listToDeletePresents;
+        private List<Plane> _listOfPlanes;
+        private List<Plane> _listToDeletePlanes;
+        private List<Bullet> _listOfBullets;
+        private List<Bullet> _listToDeleteBullets;
+        private List<Missile> _listOfMissiles;
+        private List<Missile> _listToDeleteMissiles;
+        private List<AtomBomb> _listOfAtomBombs;
+        private List<AtomBomb> _listToDeleteAtomBombs;
+        private List<Present> _listOfPresents;
+        private List<Present> _listToDeletePresents;
 
         // Do not change down of this line
         #region
@@ -68,74 +65,60 @@ namespace RangerUp
         public Form1(int difficulty)
         {
             InitializeComponent();
-
-            GenerateDifficultyValues(difficulty);
             _gameActive = true;
-            graphics = CreateGraphics();
-            backBuffer = (Image)new Bitmap(Width, Height);
-            imageGraphics = Graphics.FromImage(backBuffer);
-            imageGraphics.SmoothingMode = SmoothingMode.HighQuality;
-            Cursor = new Cursor(Properties.Resources.Cursor1.GetHicon());
+            GenerateDifficultyValues(difficulty);
+            CreateGraphics();
+            _backBuffer = new Bitmap(Width, Height);
+            _imageGraphics = Graphics.FromImage(_backBuffer);
+            _imageGraphics.SmoothingMode = SmoothingMode.HighQuality;
+            Cursor = new Cursor(Resources.Cursor1.GetHicon());
 
-
-            backgroundLoop = new BackgroundLoop
+            _backgroundLoop = new BackgroundLoop
             {
-                FormWidth = Width,
-                FormHeight = Height
+                FormWidth = Width
             };
-            hero = new Hero();
+            _hero = new Hero();
 
             // Initializing Lists of objects in game
-            listOfPlanes = new List<Plane>();
-            listToDeletePlanes = new List<Plane>();
-            listOfBullets = new List<Bullet>();
-            listToDeleteBullets = new List<Bullet>();
-            listOfMissiles = new List<Missile>();
-            listToDeleteMissiles =new List<Missile>();
-            listOfAtomBombs = new List<AtomBomb>();
-            listToDeleteAtomBombs = new List<AtomBomb>();
-            listOfPresents = new List<Present>();
-            listToDeletePresents = new List<Present>();
+            _listOfPlanes = new List<Plane>();
+            _listToDeletePlanes = new List<Plane>();
+            _listOfBullets = new List<Bullet>();
+            _listToDeleteBullets = new List<Bullet>();
+            _listOfMissiles = new List<Missile>();
+            _listToDeleteMissiles =new List<Missile>();
+            _listOfAtomBombs = new List<AtomBomb>();
+            _listToDeleteAtomBombs = new List<AtomBomb>();
+            _listOfPresents = new List<Present>();
+            _listToDeletePresents = new List<Present>();
 
-            planeTimer.Start();
-            
-            // Do not change down of this line
-            #region
-#if myDebug
-            label.Location = new Point(200, 65);
-            label.Width = 250;
-            label.BackColor = Color.Transparent;
-            Controls.Add(label);
-#endif
-#endregion
-
+            _planeTimer.Start();
         }
 
         public void GameLoop()
         {
-            gameTimer.Start();
+            _gameTimer.Start();
             while (Created)
             {
-                if (!GameOver)
+                if (!_gameOver)
                 {
                     if (_gameActive)
                     {
-                        startTime = gameTimer.ElapsedMilliseconds;
+                        _startTime = _gameTimer.ElapsedMilliseconds;
                         GameLogic();
                         RenderScene();
-                        while (gameTimer.ElapsedMilliseconds - startTime < interval) ;
+                        while (_gameTimer.ElapsedMilliseconds - _startTime < _interval){}
                     }
                     Application.DoEvents();
                 }
                 else
                 {
-                    score += gameTimer.ElapsedMilliseconds/1000;
-                    if (MessageBox.Show("Do you want to save your score in Highscore list?", "Save score?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    Score += _gameTimer.ElapsedMilliseconds/1000;
+                    if (MessageBox.Show(Resources.Form1_GameLoop_Do_you_want_to_save_your_score_in_Highscore_list_, Resources.Form1_GameLoop_Save_score_, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-                        saveHighScore = true;
+                        SaveHighScore = true;
                     }
                     DialogResult = DialogResult.OK;
-                    hero.Dispose();
+                    _hero.Dispose();
                     Close();
                 }
             }
@@ -144,229 +127,217 @@ namespace RangerUp
         private void GameLogic()
         {
             #region Load, Unload and GameMoves
-            // Generate planes on 3-7s time window.
-            if (planeTimer.ElapsedMilliseconds > (new Random().Next(minPlaneTimeSpawn, maxPlaneTimeSpawn)))
+            if (_planeTimer.ElapsedMilliseconds > (new Random().Next(_minPlaneTimeSpawn, _maxPlaneTimeSpawn)))
             {
-                planeTimer.Stop();
-                planeTimer.Start();
-                listOfPlanes.Add(new Plane
+                _planeTimer.Stop();
+                _planeTimer.Start();
+                _listOfPlanes.Add(new Plane
                 {
                     X = Width, Y = new Random().Next(50,150),
-                    minAtomBombTimeSpawn = minAtomBombTimeSpawn,
-                    maxAtomBombTimeSpawn = maxAtomBombTimeSpawn,
-                    minBulletTimeSpawn = minBulletTimeSpawn,
-                    maxBulletTimeSpawn = maxBulletTimeSpawn,
-                    PlaneDropPresent = PlaneDropPresent,
+                    MinAtomBombTimeSpawn = _minAtomBombTimeSpawn,
+                    MaxAtomBombTimeSpawn = _maxAtomBombTimeSpawn,
+                    MinBulletTimeSpawn = _minBulletTimeSpawn,
+                    MaxBulletTimeSpawn = _maxBulletTimeSpawn,
+                    PlaneDropPresent = _planeDropPresent
             });
             }
             
-            hero.Move();
-            if (hero.isDead)
+            _hero.Move();
+            if (_hero.IsDead)
             {
-                GameOver = true;
+                _gameOver = true;
             }
 
-            if (hero.bullet != null)
+            if (_hero.Bullet != null)
             {
-                listOfBullets.Add(hero.bullet);
-                hero.bullet = null;
+                _listOfBullets.Add(_hero.Bullet);
+                _hero.Bullet = null;
             }
-            if (hero.missile != null)
+            if (_hero.Missile != null)
             {
-                listOfMissiles.Add(hero.missile);
-                hero.missile = null;
+                _listOfMissiles.Add(_hero.Missile);
+                _hero.Missile = null;
             }
-            if (hero.X > (float)Width/2)
+            if (_hero.X > (float)Width/2)
             {
-                hero.X = (float)Width /2;
-                backgroundLoop.XPosition -= 10;
-                foreach (var present in listOfPresents)
+                _hero.X = (float)Width /2;
+                _backgroundLoop.XPosition -= 10;
+                foreach (var present in _listOfPresents)
                 {
                     present.X -= 10;
                 }
-                foreach (var atomBomb in listOfAtomBombs)
+                foreach (var atomBomb in _listOfAtomBombs)
                 {
                     atomBomb.X -= 10;
                 }
             }
             // Planes.
-            foreach (var plane in listOfPlanes)
+            foreach (var plane in _listOfPlanes)
             {
-                plane.Move(hero.centerPoint);
+                plane.Move(_hero.CenterPoint);
                
-                if (plane.atomBomb != null)
+                if (plane.AtomBomb != null)
                 {
-                    listOfAtomBombs.Add(plane.atomBomb);
-                    plane.atomBomb = null;
+                    _listOfAtomBombs.Add(plane.AtomBomb);
+                    plane.AtomBomb = null;
                 }
-                if (plane.bullet != null)
+                if (plane.Bullet != null)
                 {
-                    listOfBullets.Add(plane.bullet);
-                    plane.bullet = null;
+                    _listOfBullets.Add(plane.Bullet);
+                    plane.Bullet = null;
                 }
-                if (plane.isDead)
+                if (plane.IsDead)
                 {
-                    score += 25;
-                    listToDeletePlanes.Add(plane);
-                    if(plane.present !=null)
-                        listOfPresents.Add(plane.present);
-                }else if(plane.outOfScreen)
-                    listToDeletePlanes.Add(plane);
+                    Score += 25;
+                    _listToDeletePlanes.Add(plane);
+                    if(plane.Present !=null)
+                        _listOfPresents.Add(plane.Present);
+                }else if(plane.OutOfScreen)
+                    _listToDeletePlanes.Add(plane);
             }
-            foreach (var plane in listToDeletePlanes)
+            foreach (var plane in _listToDeletePlanes)
             {
-                listOfPlanes.Remove(plane);
+                _listOfPlanes.Remove(plane);
                 plane.Dispose();
             }
-            listToDeletePlanes.Clear();
+            _listToDeletePlanes.Clear();
 
             // Bullets.
-            foreach (var bullet in listOfBullets)
+            foreach (var bullet in _listOfBullets)
             {
                 bullet.Move();
-                if(bullet.outOfScreen || bullet.didHit)
-                    listToDeleteBullets.Add(bullet);
+                if(bullet.OutOfScreen || bullet.DidHit)
+                    _listToDeleteBullets.Add(bullet);
             }
-            foreach (var bullet in listToDeleteBullets)
+            foreach (var bullet in _listToDeleteBullets)
             {
-                listOfBullets.Remove(bullet);
+                _listOfBullets.Remove(bullet);
                 bullet.Dispose();
             }
-            listToDeleteBullets.Clear();
+            _listToDeleteBullets.Clear();
 
             // Missiles.
-            foreach (var missile in listOfMissiles)
+            foreach (var missile in _listOfMissiles)
             {
                 missile.Move();
-                if(missile.outOfScreen || missile.didHit)
-                    listToDeleteMissiles.Add(missile);
+                if(missile.OutOfScreen || missile.DidHit)
+                    _listToDeleteMissiles.Add(missile);
             }
-            foreach (var missile in listToDeleteMissiles)
+            foreach (var missile in _listToDeleteMissiles)
             {
-                listOfMissiles.Remove(missile);
+                _listOfMissiles.Remove(missile);
                 missile.Dispose();
             }
-            listToDeleteMissiles.Clear();
+            _listToDeleteMissiles.Clear();
 
             // AtomBombs.
-            foreach (var atomBomb in listOfAtomBombs)
+            foreach (var atomBomb in _listOfAtomBombs)
             {
                 atomBomb.Move();
-                if (atomBomb.isDead)
+                if (atomBomb.IsDead)
                 {
-                    hero.AssessDamage(atomBomb.centerPoint);
-                    listToDeleteAtomBombs.Add(atomBomb);
+                    _hero.AssessDamage(atomBomb.CenterPoint);
+                    _listToDeleteAtomBombs.Add(atomBomb);
                 }
             }
-            foreach (var atomBomb in listToDeleteAtomBombs)
+            foreach (var atomBomb in _listToDeleteAtomBombs)
             {
-                listOfAtomBombs.Remove(atomBomb);
+                _listOfAtomBombs.Remove(atomBomb);
                 atomBomb.Dispose();
             }
-            listToDeleteAtomBombs.Clear();
+            _listToDeleteAtomBombs.Clear();
 
             // Presents.
-            foreach (var present in listOfPresents)
+            foreach (var present in _listOfPresents)
             {
                 present.Move();
-                if(present.isDead)
-                    listToDeletePresents.Add(present);
-                if(present.outOfScreen)
-                    listToDeletePresents.Add(present);
+                if(present.IsDead)
+                    _listToDeletePresents.Add(present);
+                if(present.OutOfScreen)
+                    _listToDeletePresents.Add(present);
             }
-            foreach (var present in listToDeletePresents)
+            foreach (var present in _listToDeletePresents)
             {
-                listOfPresents.Remove(present);
+                _listOfPresents.Remove(present);
                 present.Dispose();
             }
-            listToDeletePresents.Clear();
+            _listToDeletePresents.Clear();
             #endregion
             #region CollisionDetection
 
-            foreach (var bullet in listOfBullets)
+            foreach (var bullet in _listOfBullets)
             {
                 if (!bullet.Collision(Width, Height))
                 {
-                    hero.Collision(bullet);
-                    foreach (var plane in listOfPlanes)
+                    _hero.Collision(bullet);
+                    foreach (var plane in _listOfPlanes)
                     {
                         plane.Collision(bullet);
                     }
-                    foreach (var present in listOfPresents)
+                    foreach (var present in _listOfPresents)
                     {
                         present.Collision(bullet);
                     }
                 }
             }
-            foreach (var missile in listOfMissiles)
+            foreach (var missile in _listOfMissiles)
             {
                 if (!missile.Collision(Width, Height))
                 {
-                    hero.Collision(missile);
-                    foreach (var plane in listOfPlanes)
+                    _hero.Collision(missile);
+                    foreach (var plane in _listOfPlanes)
                     {
                         plane.Collision(missile);
                     }
-                    foreach (var present in listOfPresents)
+                    foreach (var present in _listOfPresents)
                     {
                         present.Collision(missile);
                     }
                 }
             }
-            foreach (var present in listOfPresents)
+            foreach (var present in _listOfPresents)
             {
-                if(present.PickUpPresent((int) hero.centerPoint.X,(int) hero.centerPoint.Y))
-                    hero.PickedUpPresent(present);
+                if(present.PickUpPresent((int) _hero.CenterPoint.X,(int) _hero.CenterPoint.Y))
+                    _hero.PickedUpPresent(present);
             }
-            #endregion
-            // Do not change down of this line
-            #region
-
-#if myDebug
-            //backgroundLoop.XPosition-=20;
-            //hero.HeroHealth--;
-#endif
-
             #endregion
         }
 
         private void RenderScene()
         {
-            backgroundLoop.Draw(imageGraphics);
-            foreach (var plane in listOfPlanes)
+            _backgroundLoop.Draw(_imageGraphics);
+            foreach (var plane in _listOfPlanes)
             {
-                plane.Draw(imageGraphics);
+                plane.Draw(_imageGraphics);
             }
-            foreach (var bullet in listOfBullets)
+            foreach (var bullet in _listOfBullets)
             {
-                bullet.Draw(imageGraphics);
+                bullet.Draw(_imageGraphics);
             }
-            foreach (var missile in listOfMissiles)
+            foreach (var missile in _listOfMissiles)
             {
-                missile.Draw(imageGraphics);
+                missile.Draw(_imageGraphics);
             }
-            foreach (var atomBomb in listOfAtomBombs)
+            foreach (var atomBomb in _listOfAtomBombs)
             {
-                atomBomb.Draw(imageGraphics);
+                atomBomb.Draw(_imageGraphics);
             }
-            foreach (var present in listOfPresents)
+            foreach (var present in _listOfPresents)
             {
-                present.Draw(imageGraphics);
+                present.Draw(_imageGraphics);
             }
-            hero.Draw(imageGraphics);
-            
-            // Do not change down of this line
+            _hero.Draw(_imageGraphics);
+
+            TextRenderer.DrawText(_imageGraphics, "GameTime : "
+                + _gameTimer.ElapsedMilliseconds / 1000 + " s",
+                    new Font("Century Gothic", 12.25f),
+                        new Point(50, 50), Color.Black, Color.Transparent);
+
+            TextRenderer.DrawText(_imageGraphics, "Score: " + Score, new Font("Century Gothic",12.25f), 
+                new Point(50, 75), Color.Black);
+
             #region
 #if myDebug
-            TextRenderer.DrawText(imageGraphics, "GameTime : " + gameTimer.ElapsedMilliseconds/1000 + " s",
-                                    new Font(Font.OriginalFontName, 10f, FontStyle.Regular),
-                                    new Point(200, 50), Color.Black, Color.Transparent);
-                        TextRenderer.DrawText(imageGraphics, "XPosition = " + backgroundLoop.XPosition +
-                                    "/tbackgroundWidth = " + backgroundLoop.BackgroundCoverImage.Width, Form1.DefaultFont,
-                                    new Point(400, 50), Color.Black, Color.Transparent);
-                        TextRenderer.DrawText(imageGraphics, "Hero Coordinates: X: " + hero.X + "  Y:  " + hero.Y,
-                                    Form1.DefaultFont, new Point(400,65), Color.Black);
-            TextRenderer.DrawText(imageGraphics, "Score: "+score, Form1.DefaultFont, new Point(600, 65), Color.Black);
             framesRendered++;
                         if (Environment.TickCount >= startTimeRender + 1000)
                         {
@@ -375,9 +346,9 @@ namespace RangerUp
                             startTimeRender = Environment.TickCount;
                         }
                             
-#endif
+                #endif
             #endregion
-            BackgroundImage = backBuffer;
+            BackgroundImage = _backBuffer;
             Invalidate();
         }
 
@@ -385,63 +356,49 @@ namespace RangerUp
         {
             if (difficulty == 1)
             {
-                minPlaneTimeSpawn = 4000;
-                maxPlaneTimeSpawn = 9000;
-                minAtomBombTimeSpawn = 2500;
-                maxAtomBombTimeSpawn = 5000;
-                minBulletTimeSpawn = 1000;
-                maxBulletTimeSpawn = 3000;
-                PlaneDropPresent = 0;
+                _minPlaneTimeSpawn = 4000;
+                _maxPlaneTimeSpawn = 9000;
+                _minAtomBombTimeSpawn = 2500;
+                _maxAtomBombTimeSpawn = 4000;
+                _minBulletTimeSpawn = 1000;
+                _maxBulletTimeSpawn = 2500;
+                _planeDropPresent = 1;
             }
             else if (difficulty == 2)
             {
-                minPlaneTimeSpawn = 3000;
-                maxPlaneTimeSpawn = 7000;
-                minAtomBombTimeSpawn = 1500;
-                maxAtomBombTimeSpawn = 3000;
-                minBulletTimeSpawn = 750;
-                maxBulletTimeSpawn = 2000;
-                PlaneDropPresent = 3;
+                _minPlaneTimeSpawn = 3000;
+                _maxPlaneTimeSpawn = 7000;
+                _minAtomBombTimeSpawn = 1500;
+                _maxAtomBombTimeSpawn = 3000;
+                _minBulletTimeSpawn = 750;
+                _maxBulletTimeSpawn = 2000;
+                _planeDropPresent = 3;
             }
             else
             {
-                minPlaneTimeSpawn = 2000;
-                maxPlaneTimeSpawn = 5000;
-                minAtomBombTimeSpawn = 1200;
-                maxAtomBombTimeSpawn = 2500;
-                minBulletTimeSpawn = 400;
-                maxBulletTimeSpawn = 1500;
-                PlaneDropPresent = 5;
+                _minPlaneTimeSpawn = 2000;
+                _maxPlaneTimeSpawn = 5500;
+                _minAtomBombTimeSpawn = 1200;
+                _maxAtomBombTimeSpawn = 2500;
+                _minBulletTimeSpawn = 600;
+                _maxBulletTimeSpawn = 1500;
+                _planeDropPresent = 4;
             }
-        }
-
-        // Creating temp files from resources
-        public string LoadFile(UnmanagedMemoryStream ums)
-        {
-            var temporaryFilePath = string.Format(
-                "{0}{1}{2}", Path.GetTempPath(), Guid.NewGuid().ToString("N"), ".mp3");
-            using (var memoryStream = ums)
-            using (var tempFileStream = new FileStream(temporaryFilePath, FileMode.Create, FileAccess.Write))
-            {
-                memoryStream.Position = 0;
-                memoryStream.CopyTo(tempFileStream);
-            }
-            return temporaryFilePath;
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
             if (_gameActive)
             {
-                if (e.KeyCode == Keys.R){hero.Reload();}
-                if (e.KeyCode == Keys.A || e.KeyCode == Keys.Left) { hero.left = true;}
-                if(e.KeyCode == Keys.D || e.KeyCode == Keys.Right) { hero.right = true;}
-                if (!hero.jump)
+                if (e.KeyCode == Keys.R){_hero.Reload();}
+                if (e.KeyCode == Keys.A || e.KeyCode == Keys.Left) { _hero.Left = true;}
+                if(e.KeyCode == Keys.D || e.KeyCode == Keys.Right) { _hero.Right = true;}
+                if (!_hero.Jump)
                 {
                     if (e.KeyCode == Keys.W || e.KeyCode == Keys.Up)
                     {
-                        hero.jump = true;
-                        hero.Force = hero.G;
+                        _hero.Jump = true;
+                        _hero.Force = _hero.G;
                     }
                 }
             }
@@ -449,37 +406,37 @@ namespace RangerUp
             {
                 if (_gameActive)
                 {
-                    gameTimer.Stop();
-                    planeTimer.Stop();
-                    if(hero.ReloadingBullets)
-                        hero.bulletReloadTimer.Stop();
-                    if(hero.ReloadingMissiles)
-                        hero.missileReloadTimer.Stop();
-                    foreach (var plane in listOfPlanes)
+                    _gameTimer.Stop();
+                    _planeTimer.Stop();
+                    if(_hero.ReloadingBullets)
+                        _hero.BulletReloadTimer.Stop();
+                    if(_hero.ReloadingMissiles)
+                        _hero.MissileReloadTimer.Stop();
+                    foreach (var plane in _listOfPlanes)
                     {
                         plane.AtomBombTimer.Stop();
                         plane.BulletTimer.Stop();
                     }
-                    foreach (var present in listOfPresents)
+                    foreach (var present in _listOfPresents)
                     {
                         present.PresentTimer.Stop();
                     }
                 }
                 else
                 {
-                    gameTimer.Continue();
-                    planeTimer.Continue();
-                    if (hero.ReloadingBullets)
-                        hero.bulletReloadTimer.Continue();
-                    if (hero.ReloadingMissiles)
-                        hero.missileReloadTimer.Continue();
+                    _gameTimer.Continue();
+                    _planeTimer.Continue();
+                    if (_hero.ReloadingBullets)
+                        _hero.BulletReloadTimer.Continue();
+                    if (_hero.ReloadingMissiles)
+                        _hero.MissileReloadTimer.Continue();
 
-                    foreach (var plane in listOfPlanes)
+                    foreach (var plane in _listOfPlanes)
                     {
                         plane.AtomBombTimer.Continue();
                         plane.BulletTimer.Continue();
                     }
-                    foreach (var present in listOfPresents)
+                    foreach (var present in _listOfPresents)
                     {
                         present.PresentTimer.Continue();
                     }
@@ -490,24 +447,24 @@ namespace RangerUp
 
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.A) { hero.left = false;}
-            if(e.KeyCode == Keys.D) { hero.right = false;}
+            if(e.KeyCode == Keys.A || e.KeyCode == Keys.Left) { _hero.Left = false;}
+            if(e.KeyCode == Keys.D || e.KeyCode == Keys.Right) { _hero.Right = false;}
         }
 
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
-            hero.mouseLocation = e.Location;
+            _hero.MouseLocation = e.Location;
         }
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                hero.FireBurst(e.Location);
+                _hero.FireBurst(e.Location);
             }
             if (e.Button == MouseButtons.Right)
             {
-                hero.FireMissile(e.Location);
+                _hero.FireMissile(e.Location);
             }
         }
     }

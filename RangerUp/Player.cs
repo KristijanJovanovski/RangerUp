@@ -1,29 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RangerUp
 {
-    public class Player:IComparer<Player>
+    public class Player:IComparable<Player>,IComparer<Player>
     {
-        public String name;
-        public long score;
+        public string Name;
+        public long Score;
+        public string Difficulty;
 
-        public Player(string _name , long _score)
+        public Player(string name , long score,string difficulty)
         {
-            name = _name;
-            score = _score;
+            Name = name;
+            Score = score;
+            Difficulty = difficulty;
         }
+
         public int Compare(Player x, Player y)
         {
-            if (x.score > y.score)
+            if (x.Score > y.Score)
                 return 1;
-            if (x.score < y.score)
+            if (x.Score < y.Score)
                 return -1;
-            return x.name.CompareTo(y.name);
+            return String.Compare(x.Name, y.Name, StringComparison.Ordinal);
+        }
+
+        public int CompareTo(Player other)
+        {
+            if (Score > other.Score)
+                return 1;
+            if (Score < other.Score)
+                return -1;
+            return String.Compare(Name, other.Name, StringComparison.Ordinal);
         }
     }
 }

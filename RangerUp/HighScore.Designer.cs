@@ -1,11 +1,14 @@
-﻿namespace RangerUp
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace RangerUp
 {
     partial class HighScore
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -43,7 +46,6 @@
             this.listView1.Location = new System.Drawing.Point(13, 53);
             this.listView1.Name = "listView1";
             this.listView1.Size = new System.Drawing.Size(445, 339);
-            this.listView1.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
             // 
@@ -80,6 +82,7 @@
             // 
             // button2
             // 
+            this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.button2.Location = new System.Drawing.Point(383, 25);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
@@ -110,7 +113,7 @@
             this.ShowIcon = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "HighScore";
+            this.Text = "High Score";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.HighScore_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
@@ -120,11 +123,11 @@
 
         #endregion
 
-        private System.Windows.Forms.ListView listView1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.ErrorProvider errorProvider1;
-        private System.Windows.Forms.Button button2;
+        private ListView listView1;
+        private TextBox textBox1;
+        private Label label1;
+        private Button button1;
+        private ErrorProvider errorProvider1;
+        private Button button2;
     }
 }

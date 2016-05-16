@@ -1,22 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Media;
-using System.Text;
-using System.Threading.Tasks;
-using WMPLib;
 
 namespace RangerUp
 {
     public abstract class Ammunition: IDisposable
     {
-
-        public readonly int _boxLoc = 565;
+        public readonly int StandingLocation = 565;
 
         public float X { get; set; }
         public float Y { get; set; }
-        
+
         public int Width;
         public int Height;
         public double Angle;
@@ -27,18 +20,18 @@ namespace RangerUp
 
         public Image AmmoImage { get; set; }
 
-        public bool outOfScreen;
-        public bool didHit;
+        public bool OutOfScreen;
+        public bool DidHit;
         public bool IsBullet;
-        protected bool right;
-        protected bool top;
+        protected bool Right;
+        protected bool Top;
 
         public void Move()
         {
-            if (right) X += HorizontalGradient;
+            if (Right) X += HorizontalGradient;
             else X -= HorizontalGradient;
 
-            if (top) Y += -VerticalGradient;
+            if (Top) Y += -VerticalGradient;
             else Y += VerticalGradient;
 
             CenterPoint = new PointF(X + ((float)Width / 2), Y + ((float)Height / 2));
@@ -49,27 +42,27 @@ namespace RangerUp
             g.DrawImage(RotateImage(AmmoImage), X, Y);
         }
 
-        public bool Collision(int _width,int _height)
+        public bool Collision(int width,int height)
         {
-            if (CenterPoint.X > _width || CenterPoint.X < 0 || CenterPoint.Y > _boxLoc || CenterPoint.Y < 0)
+            if (CenterPoint.X > width || CenterPoint.X < 0 || CenterPoint.Y > StandingLocation || CenterPoint.Y < 0)
             {
-                outOfScreen = true;
+                OutOfScreen = true;
                 return true;
             }
             return false;
         }
 
-        protected Bitmap RotateImage(Image b)
+        private Bitmap RotateImage(Image b)
         {
             Bitmap returnBitmap = new Bitmap(Width, Height);
             using (Graphics g = Graphics.FromImage(returnBitmap))
             {
                 g.TranslateTransform((float)Width / 2, (float)Height / 2);
-                if (top && right)
+                if (Top && Right)
                     g.RotateTransform((float)(90 - Angle * (180 / Math.PI)));
-                else if (!top && right)
+                else if (!Top && Right)
                     g.RotateTransform((float)(90 + Angle * (180 / Math.PI)));
-                else if (top && !right)
+                else if (Top && !Right)
                     g.RotateTransform((float)(270 + Angle * (180 / Math.PI)));
                 else
                     g.RotateTransform((float)(270 - Angle * (180 / Math.PI)));
@@ -80,46 +73,46 @@ namespace RangerUp
             return returnBitmap;
         }
 
-        protected double CalculateAngle(int _XmousePosition, int _YmousePosition, float _XfiredFrom, float _YfiredFrom)
+        protected double CalculateAngle(int xmousePosition, int ymousePosition, float xfiredFrom, float yfiredFrom)
         {
             float h = 0, v = 0;
 
-            if (_XfiredFrom < _XmousePosition)
+            if (xfiredFrom < xmousePosition)
             {
-                h = _XmousePosition - _XfiredFrom;
-                right = true;
+                h = xmousePosition - xfiredFrom;
+                Right = true;
             }
-            else if (_XfiredFrom > _XmousePosition)
+            else if (xfiredFrom > xmousePosition)
             {
-                h = _XfiredFrom - _XmousePosition;
-                right = false;
+                h = xfiredFrom - xmousePosition;
+                Right = false;
             }
-            if (_YfiredFrom < _YmousePosition)
+            if (yfiredFrom < ymousePosition)
             {
-                v = _YmousePosition - _YfiredFrom;
-                top = false;
+                v = ymousePosition - yfiredFrom;
+                Top = false;
             }
-            else if (_YfiredFrom > _YmousePosition)
+            else if (yfiredFrom > ymousePosition)
             {
-                v = _YfiredFrom - _YmousePosition;
-                top = true;
+                v = yfiredFrom - ymousePosition;
+                Top = true;
             }
             return Math.Atan(v / h);
         }
 
         protected virtual void LoadAssets(){ }
         #region IDisposable Support
-        private bool disposedValue = false; // To detect redundant calls
+        private bool _disposedValue; // To detect redundant calls
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (!_disposedValue)
             {
                 if (disposing)
                 {
                     AmmoImage.Dispose();
                 }
-                disposedValue = true;
+                _disposedValue = true;
             }
         }
         public void Dispose()

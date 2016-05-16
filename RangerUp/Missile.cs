@@ -1,30 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Media;
-using System.Text;
-using System.Threading.Tasks;
-using WMPLib;
+using RangerUp.Properties;
 
 namespace RangerUp
 {
     public class Missile:Ammunition
     {
-        public Missile(int _XmousePosition, int _YmousePosition, float _XfiredFrom, float _YfiredFrom,float _velocity)
+        public Missile(int xmousePosition, int ymousePosition, float xfiredFrom, float yfiredFrom,float velocity)
         {
             LoadAssets();
-            X = _XfiredFrom-40;
-            Y = _YfiredFrom-40;
-            Angle = CalculateAngle(_XmousePosition, _YmousePosition, _XfiredFrom, _YfiredFrom);
+            X = xfiredFrom-40;
+            Y = yfiredFrom-40;
+            Angle = CalculateAngle(xmousePosition, ymousePosition, xfiredFrom, yfiredFrom);
             Width = Height = 80;
-            Velocity = _velocity;
+            Velocity = velocity;
             HorizontalGradient = (float)(Math.Cos(Angle) * Velocity);
             VerticalGradient = (float)(Math.Sin(Angle) * Velocity);
         }
 
-        protected override void LoadAssets()
+        protected sealed override void LoadAssets()
         {
-            AmmoImage = Properties.Resources.missile;
+            AmmoImage = Resources.missile;
         }
     }
 }

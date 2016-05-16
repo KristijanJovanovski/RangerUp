@@ -12,6 +12,21 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -31,6 +46,13 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Rangers-1.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -64,6 +86,12 @@
       <DependentUpon>HighScore.cs</DependentUpon>
     </Compile>
     <Compile Include="HiResTimer.cs" />
+    <Compile Include="InstructionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InstructionsForm.Designer.cs">
+      <DependentUpon>InstructionsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -81,6 +109,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HighScore.resx">
       <DependentUpon>HighScore.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InstructionsForm.resx">
+      <DependentUpon>InstructionsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -229,37 +260,13 @@
     <None Include="Resources\missile.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\missileR.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\PlaneGray.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\PlaneRed.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Thumbnail.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\armor.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Barrel Exploding-SoundBible.com-1134967902.wav" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\explosion1.wav" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\FallingBombSound.wav" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\kung_fu_punch-Mike_Koenig-2097967259.wav" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Pew_Pew-DKnight556-1379997159.wav" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\THE_Boom_-_Sound_Effect.wav" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="WMPLib">
@@ -273,10 +280,19 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Mute.png" />
+    <Content Include="Rangers-1.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\speaker.png" />
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,49 +1,43 @@
-
-﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RangerUp
 {
     public class HiResTimer
     {
-        Stopwatch stopwatch;
+        readonly Stopwatch _stopwatch;
 
         public HiResTimer()
         {
-            stopwatch = new Stopwatch();
-            stopwatch.Reset();
+            _stopwatch = new Stopwatch();
+            _stopwatch.Reset();
         }
 
         public long ElapsedMilliseconds
         {
-            get { return stopwatch.ElapsedMilliseconds; }
+            get { return _stopwatch.ElapsedMilliseconds; }
         }
 
         public void Start()
         {
-            if (!stopwatch.IsRunning)
+            if (!_stopwatch.IsRunning)
             {
-                stopwatch.Reset();
-                stopwatch.Start();
+                _stopwatch.Reset();
+                _stopwatch.Start();
             }
         }
 
         public void Stop()
         {
-            stopwatch.Stop();
+            _stopwatch.Stop();
         }
         public void Continue()
         {
-            stopwatch.Start();
+            _stopwatch.Start();
         }
 
-        public bool isActive()
+        public bool IsActive()
         {
-            return stopwatch.IsRunning;
+            return _stopwatch.IsRunning;
         }
     }
 }

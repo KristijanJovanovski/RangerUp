@@ -1,24 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Media;
-using System.Text;
-using System.Threading.Tasks;
-using WMPLib;
+using RangerUp.Properties;
 
 namespace RangerUp
 {
-    public class Bullet:Ammunition, IDisposable
+    public class Bullet:Ammunition
     {
         public bool FiredFromHero;
 
-        public Bullet(int _XmousePosition,int _YmousePosition,float _XfiredFrom,float _YfiredFrom)
+        public Bullet(int xmousePosition,int ymousePosition,float xfiredFrom,float yfiredFrom)
         {
             LoadAssets();
-            X = _XfiredFrom;
-            Y = _YfiredFrom;
-            Angle = CalculateAngle(_XmousePosition, _YmousePosition, _XfiredFrom, _YfiredFrom);
+            X = xfiredFrom;
+            Y = yfiredFrom;
+            Angle = CalculateAngle(xmousePosition, ymousePosition, xfiredFrom, yfiredFrom);
             Width = Height = 20;
             Velocity = 50;
             HorizontalGradient = (float)(Math.Cos(Angle) * Velocity);
@@ -26,9 +20,9 @@ namespace RangerUp
             IsBullet = true;
         }
 
-        protected override void LoadAssets()
+        protected sealed override void LoadAssets()
         {
-            AmmoImage = Properties.Resources.bullet;
+            AmmoImage = Resources.bullet;
         }
 
         
